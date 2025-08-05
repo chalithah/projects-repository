@@ -3,21 +3,21 @@ phases:
   install:
     runtime-versions:
       nodejs: 18
-    commands:
-      - echo "Node version:" && node --version
-      - echo "NPM version:" && npm --version
   pre_build:
     commands:
-      - echo Installing dependencies...
-      - npm cache clean --force
-      - npm install --verbose
+      - echo "Current directory contents:"
+      - ls -la
+      - echo "Node version:" && node --version
+      - echo "NPM version:" && npm --version
+      - echo "Installing dependencies..."
+      - npm install
   build:
     commands:
-      - echo Building the project...
+      - echo "Building the project..."
       - npm run build
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo "Build completed on `date`"
 artifacts:
   files:
     - '**/*'
