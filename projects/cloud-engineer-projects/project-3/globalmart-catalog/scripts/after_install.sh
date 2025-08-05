@@ -10,6 +10,12 @@ server {
     location / {
         try_files $uri $uri/ /index.html;
     }
+    
+    # Handle static assets
+    location /static/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
 }
 EOL
 
@@ -18,6 +24,20 @@ if [ -f /etc/nginx/conf.d/default.conf ]; then
   rm -f /etc/nginx/conf.d/default.conf
 fi
 
-# Set proper permissions and restart nginx
+# Remove default nginx config
+if [ -f /etc/nginx/nginx.conf.default ]; then
+  rm -f /etc/nginx/nginx.conf.default
+fi
+
+# Set proper permissions
 chmod -R 755 /usr/share/nginx/html
+chown -R nginx:nginx /usr/share/nginx/html
+
+# Test nginx configuration
+nginx -t
+
+# Restart nginx
 systemctl restart nginx
+systemctl enable nginx
+
+echo "After install completed successfully"
