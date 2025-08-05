@@ -2,11 +2,15 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 16
+    commands:
+      - echo "Node version:" && node --version
+      - echo "NPM version:" && npm --version
   pre_build:
     commands:
       - echo Installing dependencies...
-      - npm install
+      - npm cache clean --force
+      - npm install --verbose
   build:
     commands:
       - echo Building the project...
